@@ -36,7 +36,7 @@ class AdminPortfoliosController extends Controller
         $data =  Request::except(array('_token')) ;        
         $inputs = Request::all();
         $rule=array( 
-            'albumName' => 'required|unique:portfolios'                     		        	        
+            'title' => 'required|unique:portfolios'                     		        	        
         );
         
         $validator = \Validator::make($data,$rule); 
@@ -46,15 +46,15 @@ class AdminPortfoliosController extends Controller
         }
 
         $savePhoto = new Portfolio;
-        $savePhoto->albumName = $inputs['albumName'];
+        $savePhoto->title = $inputs['title'];
         $savePhoto->portfolios_type = 'images';
-        $savePhoto->albumSlug = Str::slug($inputs['albumName']);
+        $savePhoto->albumSlug = Str::slug($inputs['title']);
         $savePhoto->status = $inputs['status']; 
         $stroe_images = array();
         if(!empty($inputs['albumimages'])):
             foreach($inputs['albumimages'] as $key=> $images):              
                 $file2= $images;
-                $filename2= Str::slug($inputs['albumName']).'_album-image-'.rand().$file2->getClientOriginalName();
+                $filename2= Str::slug($inputs['title']).'_album-image-'.rand().$file2->getClientOriginalName();
                 $file2->move(public_path('uploads/portfolios/'), $filename2);
                 $stroe_images[$key] = asset('/uploads/portfolios/'.$filename2);                           
             endforeach;
@@ -62,7 +62,7 @@ class AdminPortfoliosController extends Controller
         endif;        
         if(!empty($inputs['featureImage'])): 
             $file= $inputs['featureImage'];
-            $filename= Str::slug($inputs['albumName']).'_featureImage-'.$file->getClientOriginalName();
+            $filename= Str::slug($inputs['title']).'_featureImage-'.$file->getClientOriginalName();
             $file->move(public_path('uploads/portfolios/'), $filename);
             $savePhoto->featureImage = asset('/uploads/portfolios/'.$filename);
         else:
@@ -87,7 +87,7 @@ class AdminPortfoliosController extends Controller
         $data =  Request::except(array('_token')) ;        
         $inputs = Request::all();
         $rule=array( 
-            'albumName' => 'required|unique:portfolios,id,'.decrypt($inputs['id'])                    		        	        
+            'title' => 'required|unique:portfolios,id,'.decrypt($inputs['id'])                    		        	        
         );
         
         $validator = \Validator::make($data,$rule); 
@@ -98,15 +98,15 @@ class AdminPortfoliosController extends Controller
         
         $updatePhotoAlbum = Portfolio::where('portfolios_type','images')->where('id',decrypt($inputs['id']))->first();
         if($updatePhotoAlbum):
-            $updatePhotoAlbum->albumName = $inputs['albumName'];
-            $updatePhotoAlbum->albumSlug = Str::slug($inputs['albumName']);
+            $updatePhotoAlbum->title = $inputs['title'];
+            $updatePhotoAlbum->albumSlug = Str::slug($inputs['title']);
             $updatePhotoAlbum->status = $inputs['status'];            
             $stroe_images = array();
             if(!empty($inputs['albumimages'])):
                 $portfolios_images = unserialize($updatePhotoAlbum->portfolios_images);
                 foreach($inputs['albumimages'] as $key=> $images):              
                     $file2= $images;
-                    $filename2= Str::slug($inputs['albumName']).'_album-image-'.rand().$file2->getClientOriginalName();
+                    $filename2= Str::slug($inputs['title']).'_album-image-'.rand().$file2->getClientOriginalName();
                     $file2->move(public_path('uploads/portfolios/'), $filename2);
                     $stroe_images[$key] = asset('/uploads/portfolios/'.$filename2);                           
                 endforeach;
@@ -126,7 +126,7 @@ class AdminPortfoliosController extends Controller
                     endif;
                 } 
                 $file= $inputs['featureImage'];
-                $filename= Str::slug($inputs['albumName']).'_featureImage-'.$file->getClientOriginalName();
+                $filename= Str::slug($inputs['title']).'_featureImage-'.$file->getClientOriginalName();
                 $file->move(public_path('uploads/portfolios/'), $filename);
                 $updatePhotoAlbum->featureImage = asset('/uploads/portfolios/'.$filename);
             endif;
@@ -135,6 +135,34 @@ class AdminPortfoliosController extends Controller
         else:
             return redirect('admin/portfolios/photo-albums');
         endif;
+    }
+
+    public function portfolioImageDelete($albumID, $imageID)
+    {
+        $imagesDetail = Portfolio::findOrFail($albumID);        
+        if(!empty($imagesDetail->portfolios_images)) {
+            $images = unserialize($imagesDetail->portfolios_images);
+            $new_array = array();
+            foreach($images as $key=>$image):                
+                if($imageID==$key):                    
+                    $featureImage_name = Str::afterLast($image, '/');
+                    if(File::exists(public_path('uploads/portfolios/'.$featureImage_name))):
+                        File::delete(public_path('uploads/portfolios/'.$featureImage_name));
+                    endif;                     
+                endif;
+            endforeach; 
+            unset($images[$imageID]);
+            Portfolio::where('id',$albumID)->update(['portfolios_images'=>serialize($images)]); 
+            return response()->json([
+                'imageDeleted' => 'Images delete successfully.'
+            ]);           
+        } else {
+            return response()->json([
+                'imageDeleted' => 'Images not foun.'
+            ]);
+        }        
+
+        
     }
 
     public function deletePhotoAlbums($slug)
@@ -165,73 +193,161 @@ class AdminPortfoliosController extends Controller
 
     public function videoAlbums()
     {
-        return view('admin.portfolios.video-album-list');
+        $videoAlbums = Portfolio::where('portfolios_type','videos')->orderBy('id','DESC')->paginate(20);
+        return view('admin.portfolios.video-album-list',compact('videoAlbums'));
     }
 
-    public function portfolios()
+    public function addVideoAlbum()
     {
-        $Portfolio_images = Portfolio::where('portfolios_type','images')->orderBy('id','DESC')->get();
-        $Portfolio_videos = Portfolio::where('portfolios_type','videos')->orderBy('id','DESC')->get();
-        return view('admin.portfolios.list' , compact('Portfolio_images','Portfolio_videos'));
+        return view('admin.portfolios.add-video-album');
     }
 
-    public function uploadPhotos(Request $request)
-    {
-        $data =  Request::except(array('_token')) ;        
-        $inputs = Request::all();       
-        if(!empty($inputs['images'])):            
-            foreach($inputs['images'] as $key=> $images): 
-                $PortfolioImages = new Portfolio;  
-                $PortfolioImages->portfolios_type = 'images';              
-                $file= $images;
-                $filename= rand().'-'.$file->getClientOriginalName();
-                $file->move(public_path('uploads/portfolios/'), $filename);
-                $PortfolioImages->portfolios_images = asset('/uploads/portfolios/'.$filename);
-                $PortfolioImages->save();
-            endforeach;
-            return response()->json([
-                'successUpload' => 'Images upload successfully.'
-            ]);
-        else:
-            return response()->json([
-                'errorMsg' => 'Please choose images.'
-            ]);
-        endif;     
-    }
-
-    public function portfolioImageDelete($imageID)
-    {
-        $imagesDetail = Portfolio::findOrFail($imageID);
-        if(!empty($imagesDetail->portfolios_images)) {
-            $portfolios_image_name = Str::afterLast($imagesDetail->portfolios_images, '/');
-            if(File::exists(public_path('uploads/portfolios/'.$portfolios_image_name))):
-                File::delete(public_path('uploads/portfolios/'.$portfolios_image_name));
-            endif;
-        } 
-        Portfolio::where('id',$imageID)->delete();
-        return response()->json([
-            'imageDeleted' => 'Images delete successfully.'
-        ]);
-
-    }
-
-    public function uploadvideos(Request $request)
+    public function saveVideoAlbum(Request $request)
     {
         $data =  Request::except(array('_token')) ;        
         $inputs = Request::all();
-        if(!empty($inputs['videoUrl'])):
-            $PortfolioVideo = new Portfolio;  
-            $PortfolioVideo->portfolios_type = 'videos';
-            $PortfolioVideo->upload_video = $inputs['videoUrl'];
-            $PortfolioVideo->save();
-            return response()->json([
-                'successUpload' => 'Save successfully.'
-            ]);
+        $rule=array( 
+            'title' => 'required|unique:portfolios',
+            'youtube_url' => 'required'                    		        	        
+        );
+        
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        }
+       
+        $saveVideo = new Portfolio;
+        $saveVideo->title = $inputs['title'];
+        $saveVideo->portfolios_type = 'videos';
+        $saveVideo->albumSlug = Str::slug($inputs['title']);
+        $saveVideo->status = $inputs['status']; 
+        $saveVideo->upload_video = $inputs['youtube_url'];
+        if(!empty($inputs['featureImage'])): 
+            $file= $inputs['featureImage'];
+            $filename= Str::slug($inputs['title']).'_video-featureImage-'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/portfolios/'), $filename);
+            $saveVideo->featureImage = asset('/uploads/portfolios/'.$filename);
         else:
-            return response()->json([
-                'errorMsg' => 'Please enter youtube URL.'
-            ]);
+            $saveVideo->featureImage = asset('/uploads/catalog-default-img.gif');
+        endif;
+        $saveVideo->save();
+        return redirect()->back()->with('success', 'Album Create successfully.');
+    }
+
+    public function deleteVideoAlbums($slug)
+    {
+        $deleteVideoAlbum = Portfolio::where('portfolios_type','videos')->where('albumSlug',$slug)->first();
+        if($deleteVideoAlbum):
+            Portfolio::where('portfolios_type','videos')->where('albumSlug',$slug)->delete();
+            return redirect('admin/portfolios/video/list')->with('success', 'Delete successfully.');
+        else:
+            return redirect('admin/portfolios/video/list');
         endif;
     }
+
+    public function editVideoAlbums($slug)
+    {
+        $VideoAlbumEdit = Portfolio::where('portfolios_type','videos')->where('albumSlug',$slug)->first();
+        if($VideoAlbumEdit):
+            $VideoAlbumDetail = Portfolio::where('portfolios_type','videos')->where('albumSlug',$slug)->first();
+            return view('admin.portfolios.video-album-edit',compact('VideoAlbumDetail'));
+        else:
+            return redirect('admin/portfolios/video/list');
+        endif;
+    }
+
+    public function updateVideoAlbums(Request $request)
+    {
+        $data =  Request::except(array('_token')) ;        
+        $inputs = Request::all();
+        $rule=array( 
+            'title' => 'required|unique:portfolios,id,'.decrypt($inputs['id'])                    		        	        
+        );
+        
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        }
+
+        $updateVideoAlbum = Portfolio::where('portfolios_type','videos')->where('id',decrypt($inputs['id']))->first();
+        if($updateVideoAlbum):
+            $updateVideoAlbum->title = $inputs['title'];
+            $updateVideoAlbum->albumSlug = Str::slug($inputs['title']);          
+                                                 
+            if(!empty($inputs['youtube_url'])):
+                $updateVideoAlbum->upload_video = $inputs['youtube_url'];                            
+            endif;
+            
+            $updateVideoAlbum->status = $inputs['status'];
+            if(!empty($inputs['featureImage'])): 
+                if(!empty($updateVideoAlbum->featureImage)) {
+                    $featureImage_name = Str::afterLast($updateVideoAlbum->featureImage, '/');
+                    if(File::exists(public_path('uploads/portfolios/'.$featureImage_name))):
+                        File::delete(public_path('uploads/portfolios/'.$featureImage_name));
+                    endif;
+                } 
+                $file= $inputs['featureImage'];
+                $filename= Str::slug($inputs['title']).'_video-featureImage-'.$file->getClientOriginalName();
+                $file->move(public_path('uploads/portfolios/'), $filename);
+                $updateVideoAlbum->featureImage = asset('/uploads/portfolios/'.$filename);        
+            endif;
+            $updateVideoAlbum->save();
+            return redirect('admin/portfolios/video/edit/'.$updateVideoAlbum->albumSlug)->with('success', 'Update successfully.');
+        else:
+            return redirect('admin/portfolios/video/list');
+        endif;
+    }
+
+    // public function portfolios()
+    // {
+    //     $Portfolio_images = Portfolio::where('portfolios_type','images')->orderBy('id','DESC')->get();
+    //     $Portfolio_videos = Portfolio::where('portfolios_type','videos')->orderBy('id','DESC')->get();
+    //     return view('admin.portfolios.list' , compact('Portfolio_images','Portfolio_videos'));
+    // }
+
+    // public function uploadPhotos(Request $request)
+    // {
+    //     $data =  Request::except(array('_token')) ;        
+    //     $inputs = Request::all();       
+    //     if(!empty($inputs['images'])):            
+    //         foreach($inputs['images'] as $key=> $images): 
+    //             $PortfolioImages = new Portfolio;  
+    //             $PortfolioImages->portfolios_type = 'images';              
+    //             $file= $images;
+    //             $filename= rand().'-'.$file->getClientOriginalName();
+    //             $file->move(public_path('uploads/portfolios/'), $filename);
+    //             $PortfolioImages->portfolios_images = asset('/uploads/portfolios/'.$filename);
+    //             $PortfolioImages->save();
+    //         endforeach;
+    //         return response()->json([
+    //             'successUpload' => 'Images upload successfully.'
+    //         ]);
+    //     else:
+    //         return response()->json([
+    //             'errorMsg' => 'Please choose images.'
+    //         ]);
+    //     endif;     
+    // }    
+
+    // public function uploadvideos(Request $request)
+    // {
+    //     $data =  Request::except(array('_token')) ;        
+    //     $inputs = Request::all();
+    //     if(!empty($inputs['videoUrl'])):
+    //         $PortfolioVideo = new Portfolio;  
+    //         $PortfolioVideo->portfolios_type = 'videos';
+    //         $PortfolioVideo->upload_video = $inputs['videoUrl'];
+    //         $PortfolioVideo->save();
+    //         return response()->json([
+    //             'successUpload' => 'Save successfully.'
+    //         ]);
+    //     else:
+    //         return response()->json([
+    //             'errorMsg' => 'Please enter youtube URL.'
+    //         ]);
+    //     endif;
+    // }
 
 }

@@ -5,12 +5,12 @@
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Edit Photo Album : {{$photoAlbum->albumName}}</h5>
+                        <h5 class="m-b-10">Edit Photo Album : {{$photoAlbum->title}}</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{URL::to('admin/dashboard')}}"><i class="feather icon-home"></i></a></li>
                         <li class="breadcrumb-item"><a href="{{URL::to('admin/portfolios/photo-albums')}}">Photo Album's</a></li>
-                        <li class="breadcrumb-item"><a href="#!">Edit Photo Album : {{$photoAlbum->albumName}}</a></li>
+                        <li class="breadcrumb-item"><a href="#!">Edit Photo Album : {{$photoAlbum->title}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -21,7 +21,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5 style="margin-top:17px;">Edit Photo Album : {{$photoAlbum->albumName}}</h5>
+                        <h5 style="margin-top:17px;">Edit Photo Album : {{$photoAlbum->title}}</h5>
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="{{URL::to('admin/portfolios/photo-albums')}}" class="btn btn-success text-dark"><i class="fa fa-list"></i> Photo Album's</a>
@@ -29,8 +29,8 @@
                 </div>             
             </div>
             <div class="card-body table-border-style">
-               <hr>
-               <div class="message">
+                <hr>
+                <div class="message">
                     @if(session()->has('success'))
                         <div class="alert alert-success">
                             {{ session()->get('success') }}
@@ -58,7 +58,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">Album Name <sup class="text-danger">*</sup></span>
                                         </div>
-                                        <input type="text" class="form-control" required="" name="albumName" value="{{$photoAlbum->albumName}}" aria-label="" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" required="" name="title" value="{{$photoAlbum->title}}" aria-label="" aria-describedby="basic-addon1">
                                     </div>
                                 </div>                        
                             </div>
@@ -75,14 +75,21 @@
                                     </div>
                                     <small class="text-danger mt-2">Select multiple images.</small>
                                     <div class="images-preview-div"> </div>
-                                    <div class="row mt-3">
+                                    <div class="row mt-2">
                                         @php 
                                             $photos = unserialize($photoAlbum->portfolios_images);                                            
                                         @endphp
                                         @if(!empty($photos))
                                             @foreach($photos as $key=>$photo)
-                                                <div class="col-sm-3 col-md-3 col-lg-3 mt-3">                                                
-                                                    <img src="{{$photo}}" class="img-responsive w-100"/>
+                                                <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                                                    <div class="card">
+                                                        <div class="card-body" style="padding:5px 5px;"> 
+                                                            <a href="{{$photo}}?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="fancybox" rel="ligthbox">
+                                                                <img src="{{$photo}}?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" class="zoom img-fluid w-100" style="height:200px;" alt="">
+                                                            </a> 
+                                                            <a class="btn btn-danger mt-2 removeImage" data-key="{{$key}}" data-id="{{$photoAlbum->id}}" style="cursor:pointer;color:#fff;margin-left:20%;" onclick="return confirm('Are you sure, you want to delete it?')"><i class="fa fa-trash"></i> Remove</a>                                                                              
+                                                        </div>
+                                                    </div>                                             
                                                 </div>
                                             @endforeach
                                         @endif                                        
@@ -155,6 +162,23 @@
             });
             /***********************************/            
         });
-    
+        $(document).on('click', '.removeImage', function() { 
+            const albumID = $(this).attr('data-id');
+            const imageID = $(this).attr('data-key');
+            $.ajax({
+                type: 'get',
+                datatype: 'json',
+                url: "{{ URL::to('admin/portfolios/image-delete',) }}/" + albumID+"/"+imageID,
+                beforeSend: function () {   
+                    $(this).css('display','none');           
+                },
+                success: function (response) {
+                    //$("#cartData").html(response);
+                    location.reload();                
+                },
+                complete: function () {              
+                }
+            });
+        });
     </script>
 @endpush('scripts')

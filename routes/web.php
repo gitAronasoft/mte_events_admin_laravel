@@ -49,11 +49,17 @@ Route::post('admin/portfolios/photo-albums/add-album', [AdminPortfoliosControlle
 Route::get('admin/portfolios/photo-albums/edit/{slug}', [AdminPortfoliosController::class, 'EditPhotoAlbums'])->middleware('admin');
 Route::post('admin/portfolios/photo-albums/edit/{slug}', [AdminPortfoliosController::class, 'updatePhotoAlbums'])->middleware('admin');
 Route::get('admin/portfolios/photo-albums/delete/{slug}', [AdminPortfoliosController::class, 'deletePhotoAlbums'])->middleware('admin');
+Route::get('admin/portfolios/image-delete/{albumID}/{imageID}', [AdminPortfoliosController::class, 'portfolioImageDelete'])->middleware('admin');
 
-Route::get('admin/portfolios/video-albums', [AdminPortfoliosController::class, 'videoAlbums'])->middleware('admin');
+Route::get('admin/portfolios/video/list', [AdminPortfoliosController::class, 'videoAlbums'])->middleware('admin');
+Route::get('admin/portfolios/video/add', [AdminPortfoliosController::class, 'addVideoAlbum'])->middleware('admin');
+Route::post('admin/portfolios/video/add', [AdminPortfoliosController::class, 'saveVideoAlbum'])->middleware('admin');
+Route::get('admin/portfolios/video/delete/{slug}', [AdminPortfoliosController::class, 'deleteVideoAlbums'])->middleware('admin');
+Route::get('admin/portfolios/video/edit/{slug}', [AdminPortfoliosController::class, 'editVideoAlbums'])->middleware('admin');
+Route::post('admin/portfolios/video/edit/{slug}', [AdminPortfoliosController::class, 'updateVideoAlbums'])->middleware('admin');
 
 // Route::post('admin/portfolios/upload-photos', [AdminPortfoliosController::class, 'uploadPhotos'])->middleware('admin');
-// Route::get('admin/portfolios/image-delete/{imageID}', [AdminPortfoliosController::class, 'portfolioImageDelete'])->middleware('admin');
+
 // Route::post('admin/portfolios/upload-videos', [AdminPortfoliosController::class, 'uploadvideos'])->middleware('admin');
 
 

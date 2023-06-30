@@ -63,7 +63,7 @@
                                         <td class="text-center" style="width: 25%;">
                                             <img src="{{$albums->featureImage}}" class="img-responsive" alt="" style="width:30%;"/>
                                         </td>                               
-                                        <td class="text-center">{{$albums->albumName}}</td>
+                                        <td class="text-center">{{$albums->title}}</td>
                                         <td class="text-center">{{count($total_photos)}}</td>
                                         <td class="text-center">
                                             @if($albums->status=='publish')

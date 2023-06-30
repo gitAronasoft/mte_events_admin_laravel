@@ -25,7 +25,7 @@
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="fa fa-image"></i></span><span class="pcoded-mtext">Portfolio's</span></a>
 						<ul class="pcoded-submenu">
 							<li><a href="{{URL::to('admin/portfolios/photo-albums')}}">Photo Album's</a></li>
-							<li><a href="{{URL::to('admin/portfolios/video-albums')}}">Video Album's</a></li>
+							<li><a href="{{URL::to('admin/portfolios/video/list')}}">Video Album's</a></li>
 						</ul>
 					</li>					
 					<!-- <li class="nav-item">
