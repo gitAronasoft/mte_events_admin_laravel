@@ -75,8 +75,15 @@ class APIController extends Controller
     public function portfolios()
     {
         $portfolios = Portfolio::orderBy('id','DESC')->get();
+        $imagesList = array();
+        foreach($portfolios as $key=> $portfolio):
+            $imagesList[$key] = $portfolio;
+            if($portfolio->portfolios_type=='images'):
+                $imagesList[$key]->album_images = unserialize($portfolio->portfolios_images);                
+            endif;
+        endforeach;
         return response()->json([
-            'data' => $portfolios
+            'data' => $imagesList
         ]);
     }
 
