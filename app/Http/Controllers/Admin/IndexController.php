@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use App\Models\Setting;
 use App\Models\Event;
+use App\Models\Headervideo;
 
 class IndexController extends Controller
 {
@@ -188,6 +189,78 @@ class IndexController extends Controller
         endif;        
         $adminDetail->save();
         return redirect()->back()->with('success', 'Update successfully.');
+    }
+
+    public function headerVideos()
+    {
+        $headerVideos = Headervideo::orderBy('id','DESC')->paginate(20); 
+        return view('admin.header-video-list',compact('headerVideos'));
+    }
+
+    public function AddHeaderVideos()
+    {
+        return view('admin.header-video-add');
+    }
+
+    public function SaveHeaderVideos(Request $request)
+    {
+        $data =  Request::except(array('_token')) ;        
+        $inputs = Request::all();
+        $rule=array(
+            'video_url' => 'required',
+            'status' => 'required'                 		        	        
+        );
+        
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        } 
+
+        $headerVideo = new Headervideo;
+        $headerVideo->video_url = $inputs['video_url'];
+        $headerVideo->status = $inputs['status'];
+        $headerVideo->save();
+        return redirect()->back()->with('success', 'Save successfully.');
+    }
+
+    public function EditHeaderVideos($id)
+    {
+        $videoDetail = Headervideo::where('id',$id)->first();
+        return view('admin.header-video-edit',compact('videoDetail'));
+    }
+
+    public function UpdateHeaderVideos(Request $request)
+    {
+        $data =  Request::except(array('_token')) ;        
+        $inputs = Request::all();
+        $rule=array(
+            'video_url' => 'required',
+            'status' => 'required'                 		        	        
+        );
+        
+        $validator = \Validator::make($data,$rule); 
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->messages());
+        } 
+
+        $headerVideo = Headervideo::where('id',$inputs['id'])->first();
+        $headerVideo->video_url = $inputs['video_url'];
+        $headerVideo->status = $inputs['status'];
+        $headerVideo->save();
+        return redirect()->back()->with('success', 'Update successfully.');
+    }
+
+    public function DeleteHeaderVideos($id)
+    {
+        $checkid = Headervideo::where('id',$id)->count();
+        if($checkid>0):
+            Headervideo::where('id',$id)->delete();
+            return redirect()->back()->with('success', 'Delete successfully.');
+        else:
+            return redirect()->back()->withErrors('errors','Video not found !');
+        endif;
     }
 
 }

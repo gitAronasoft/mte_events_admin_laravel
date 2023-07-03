@@ -41,6 +41,13 @@ Route::post('admin/general-setting', [IndexController::class, 'SaveGeneralSettin
 Route::get('admin/profile', [IndexController::class, 'profile'])->middleware('admin');
 Route::post('admin/profile', [IndexController::class, 'updateProfile'])->middleware('admin');
 
+Route::get('admin/header/video', [IndexController::class, 'headerVideos'])->middleware('admin');
+Route::get('admin/header/video/add', [IndexController::class, 'AddHeaderVideos'])->middleware('admin');
+Route::post('admin/header/video/add', [IndexController::class, 'SaveHeaderVideos'])->middleware('admin');
+Route::get('admin/header/video/edit/{id}', [IndexController::class, 'EditHeaderVideos'])->middleware('admin');
+Route::post('admin/header/video/edit/{id}', [IndexController::class, 'UpdateHeaderVideos'])->middleware('admin');
+Route::get('admin/header/video/delete/{id}', [IndexController::class, 'DeleteHeaderVideos'])->middleware('admin');
+
 Route::get('admin/portfolios', [AdminPortfoliosController::class, 'portfolios'])->middleware('admin');
 
 Route::get('admin/portfolios/photo-albums', [AdminPortfoliosController::class, 'photoAlbums'])->middleware('admin');

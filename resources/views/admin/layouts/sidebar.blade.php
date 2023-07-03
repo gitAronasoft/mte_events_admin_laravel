@@ -41,6 +41,9 @@
 					    <a href="{{URL::to('admin/testimonials')}}" class="nav-link "><span class="pcoded-micon"><i class="fa fa-quote-left"></i></span><span class="pcoded-mtext">Testimonials</span></a>
 					</li>
 					<li class="nav-item">
+					    <a href="{{URL::to('admin/header/video')}}" class="nav-link "><span class="pcoded-micon"><i class="fa fa-play"></i></span><span class="pcoded-mtext">Header Video</span></a>
+					</li>
+					<li class="nav-item">
 					    <a href="{{URL::to('admin/general-setting')}}" class="nav-link "><span class="pcoded-micon"><i class="fa fa-cog"></i></span><span class="pcoded-mtext">General Setting</span></a>
 					</li>
 					<li class="nav-item">
