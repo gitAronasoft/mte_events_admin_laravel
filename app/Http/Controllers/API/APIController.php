@@ -25,6 +25,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\EventGallery;
+use App\Models\Headervideo;
 
 class APIController extends Controller
 {
@@ -85,6 +86,21 @@ class APIController extends Controller
         return response()->json([
             'data' => $imagesList
         ]);
+    }
+    
+    public function portfolioImageAlbumDetail($slug)
+    {
+        $ImageAlbumDetail = Portfolio::where('albumSlug',$slug)->first();
+        if($ImageAlbumDetail):
+            $ImageAlbumDetail['album_images'] = unserialize($ImageAlbumDetail->portfolios_images);
+            return response()->json([
+                'data' => $ImageAlbumDetail
+            ]);
+        else:
+            return response()->json([
+                'data' => ''
+            ]);
+        endif;
     }
 
     public function ourTeam()
@@ -424,6 +440,26 @@ class APIController extends Controller
             });
         /*************** End Send Verifation Email ******************/
         return response()->json(['message' => 'success', 'data' =>'Your Message Sent succssfully.'], 200);
+    }
+    
+    public function headerVideos()
+    {
+        $Headervideos = Headervideo::where('status','active')->orderBy('id','DESC')->limit('5')->get();
+        if($Headervideos):
+            $videoUrls= array();
+            foreach($Headervideos as $key=>$Headervideo):
+                $videoUrls[$key] = $Headervideo; 
+                $video_id = explode("?v=", $Headervideo->video_url); // For videos like http://www.youtube.com/watch?v=
+                if(empty($video_id[1]))
+                    $video_id = explode("/v/", $Headervideo->video_url); // For videos like http://www.youtube.com/watch/v/
+                $video_id = explode("&", $video_id[1]); // Deleting any other params
+                $video_id = $video_id[0];
+                $videoUrls[$key]->youtube_video_id = $video_id;
+            endforeach;                         
+            return response()->json(['data' =>$videoUrls], 200);
+        else:
+            return response()->json(['data' =>''], 200);
+        endif;
     }
   
 }

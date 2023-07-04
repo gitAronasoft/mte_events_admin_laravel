@@ -21,6 +21,7 @@ Route::get('services', [APIController::class, 'services']);
 Route::get('service-events/{slug}', [APIController::class, 'serviceEvents']);
 Route::get('eventslist', [APIController::class, 'eventslist']);
 Route::get('portfolios', [APIController::class, 'portfolios']);
+Route::get('portfolios/album/{slug}', [APIController::class, 'portfolioImageAlbumDetail']);
 Route::get('events-details/{slug}', [APIController::class, 'eventsDetails']);
 Route::get('ourTeam', [APIController::class, 'ourTeam']);
 Route::get('testimonials', [APIController::class, 'testimonials']);
@@ -37,6 +38,7 @@ Route::post('forgot-password', [APIController::class, 'forgotPassword']);
 Route::post('reset-password', [APIController::class, 'resetPassword']);
 Route::post('subscribe', [APIController::class, 'subscribe']);
 Route::post('contact-us', [APIController::class, 'contactUs']);
+Route::get('header-videos', [APIController::class, 'headerVideos']);
 
 /************************* Login User Routes ******************************/
 Route::group(['middleware' => 'auth:api'], function(){
