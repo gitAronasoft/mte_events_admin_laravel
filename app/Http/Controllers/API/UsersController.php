@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\UserWishlistEvent;
 use App\Models\Subscription;
 use App\Models\OrderItem;
+use App\Models\EventCategory;
 
 
 class UsersController extends Controller

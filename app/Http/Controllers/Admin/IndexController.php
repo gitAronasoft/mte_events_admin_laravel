@@ -190,7 +190,7 @@ class IndexController extends Controller
         $adminDetail->save();
         return redirect()->back()->with('success', 'Update successfully.');
     }
-
+    
     public function headerVideos()
     {
         $headerVideos = Headervideo::orderBy('id','DESC')->paginate(20); 
@@ -220,6 +220,14 @@ class IndexController extends Controller
         $headerVideo = new Headervideo;
         $headerVideo->video_url = $inputs['video_url'];
         $headerVideo->status = $inputs['status'];
+        if(!empty($inputs['featureImage'])):            
+            $file= $inputs['featureImage'];
+            $filename= random_int(100000, 999999).'_headerVideo_featureImage-'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/'), $filename);
+            $headerVideo->featureImage = asset('uploads/'.$filename);
+        else:
+            $headerVideo->featureImage = asset('/uploads/catalog-default-img.gif');
+        endif;
         $headerVideo->save();
         return redirect()->back()->with('success', 'Save successfully.');
     }
@@ -248,6 +256,18 @@ class IndexController extends Controller
         $headerVideo = Headervideo::where('id',$inputs['id'])->first();
         $headerVideo->video_url = $inputs['video_url'];
         $headerVideo->status = $inputs['status'];
+        if(!empty($inputs['featureImage'])): 
+            if(!empty($headerVideo->featureImage)) {
+                $featureImage_name = Str::afterLast($headerVideo->featureImage, '/');
+                if(File::exists(public_path('uploads/'.$featureImage_name))):
+                    File::delete(public_path('uploads/'.$featureImage_name));
+                endif;
+            } 
+            $file= $inputs['featureImage'];
+            $filename= random_int(100000, 999999).'_headerVideo_featureImage-'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/'), $filename);
+            $headerVideo->featureImage = asset('uploads/'.$filename);
+        endif;
         $headerVideo->save();
         return redirect()->back()->with('success', 'Update successfully.');
     }

@@ -18,6 +18,7 @@ use App\Models\Event;
 use App\Models\Eventservice;
 use App\Models\EventGallery;
 use App\Models\Eventenquery;
+use App\Models\EventCategory;
 
 class AdminEventController extends Controller
 {
@@ -32,7 +33,8 @@ class AdminEventController extends Controller
     public function eventAdd()
     {
         $eventsevicesList = Eventservice::where('status','publish')->orderBy('id','DESC')->get();
-        return view('admin.events.add-event',compact('eventsevicesList'));
+        $categories = EventCategory::where('CategoryStatus','active')->orderBy('id','ASC')->get();
+        return view('admin.events.add-event',compact('eventsevicesList','categories'));
     }
 
     public function eventSave(Request $request)
@@ -46,6 +48,7 @@ class AdminEventController extends Controller
         $rule=array(
             'title' => 'required', 
             'eventService' => 'required',
+            'category' => 'required',
             'eventLocation' => 'required',
             'eventTickets' => 'required',
             'eventDate' => 'required',
@@ -67,11 +70,14 @@ class AdminEventController extends Controller
 
         $event = new Event;
         $event->eventService = $inputs['eventService'];
+        $event->event_category_id = implode(',',$inputs['category']);
         $event->title = $inputs['title'];
         $event->slug = Str::slug($inputs['title']);
         $event->decription = $inputs['decription'];
         $event->eventTicketsPrice = $inputs['eventTicketsPrice'];
         $event->eventLocation = $inputs['eventLocation'];
+        $event->latitude = $inputs['latitude'];
+        $event->longitude = $inputs['longitude'];
         $event->eventTickets = $inputs['eventTickets'];
         $event->eventDate = $inputs['eventDate'];
         $event->eventTime = $inputs['eventTime'];
@@ -107,7 +113,8 @@ class AdminEventController extends Controller
             $eventDetail = Event::where('slug',$slug)->first();
             $eventGallery = EventGallery::where('event_id',$eventDetail->id)->orderBy('id','DESC')->get();
             $eventsevicesList = Eventservice::where('status','publish')->orderBy('id','DESC')->get();
-            return view('admin.events.edit-event',compact('eventDetail','eventGallery','eventsevicesList'));
+            $categories = EventCategory::where('CategoryStatus','active')->orderBy('id','ASC')->get();
+            return view('admin.events.edit-event',compact('eventDetail','eventGallery','eventsevicesList','categories'));
         else:
             return redirect('admin/event/list');
         endif; 
@@ -141,14 +148,21 @@ class AdminEventController extends Controller
         if($count>0 && $eventDetail->title!=$inputs['title']):
             return redirect()->back()->withErrors($inputs['title'].' already exit.');
         endif;
-
+        
         $eventUpdate = Event::where('id',decrypt($inputs['id']))->first();
         $eventUpdate->eventService = $inputs['eventService'];
+        if(!empty($inputs['category'])):
+            $eventUpdate->event_category_id = implode(',',$inputs['category']);
+        else:
+            $eventUpdate->event_category_id = '';
+        endif;
         $eventUpdate->title = $inputs['title'];
         $eventUpdate->slug = Str::slug($inputs['title']);
         $eventUpdate->decription = $inputs['decription'];
         $eventUpdate->eventTicketsPrice = $inputs['eventTicketsPrice'];
         $eventUpdate->eventLocation = $inputs['eventLocation'];
+        $eventUpdate->latitude = $inputs['latitude'];
+        $eventUpdate->longitude = $inputs['longitude'];
         $eventUpdate->eventTickets = $inputs['eventTickets'];
         $eventUpdate->eventDate = $inputs['eventDate'];
         $eventUpdate->eventTime = $inputs['eventTime'];

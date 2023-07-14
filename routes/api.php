@@ -1,10 +1,15 @@
 <?php
 
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, PATCH, DELETE');
+header('Access-Control-Allow-Headers: Accept, Content-Type, X-Auth-Token, Origin, Authorization');
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\APIController;
 use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\PurchaseController;
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +20,6 @@ use App\Http\Controllers\API\PurchaseController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::get('siteInfo', [APIController::class, 'siteInfo']);
 Route::get('services', [APIController::class, 'services']);
 Route::get('service-events/{slug}', [APIController::class, 'serviceEvents']);
@@ -37,9 +41,11 @@ Route::post('cart-items', [APIController::class, 'cartItems']);
 Route::post('forgot-password', [APIController::class, 'forgotPassword']);
 Route::post('reset-password', [APIController::class, 'resetPassword']);
 Route::post('subscribe', [APIController::class, 'subscribe']);
-Route::post('contact-us', [APIController::class, 'contactUs']);
+Route::post('contactus', [APIController::class, 'contactUs']);
 Route::get('header-videos', [APIController::class, 'headerVideos']);
-
+Route::get('filesGet', [Controller::class, 'filesGet']);
+Route::post('cart', [APIController::class, 'cartItem']);
+Route::get('category-wise-event', [APIController::class, 'EventCategory']);
 /************************* Login User Routes ******************************/
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('logout', [UsersController::class, 'logout']);

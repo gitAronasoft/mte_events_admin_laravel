@@ -34,7 +34,7 @@ class PurchaseController extends Controller
     public function purchaseTickets(Request $request)
     {        
         $returnOutput = array();
-        $input = Request::all();        
+        $input = Request::all();  
         if(Auth::check() && Auth::User()->role=='user'):
         	$email = Auth::user()->email;	        
 	    else:
@@ -49,10 +49,10 @@ class PurchaseController extends Controller
 	    endif;
        
         //paymnet setup here   
-        $url = 'https://connect.squareupsandbox.com/v2/payments';
+        $url = env('SQUARE_PRODUCTION_ENDPOINT');
         $headers = array(
             'Square-Version: 2023-05-17',
-            'Authorization: Bearer '.env('SOURCE_PAYMENTGATEWAY_TOKEN'),
+            'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
             'Content-Type: application/json'
         );        
         $data = array(
@@ -81,6 +81,10 @@ class PurchaseController extends Controller
         }        
         curl_close($curl);
         $paymentJson = json_decode($response);
+        if(isset($paymentJson->errors)){
+            return response()->json(['message' => 'error', 'data' => ['payment'=>$paymentJson->errors[0]->detail]], 401);
+        }
+        
         //order setup here
        
         if($paymentJson->payment->status=='COMPLETED'):
@@ -93,6 +97,9 @@ class PurchaseController extends Controller
 	            $saveUser->name = $input['name'];
 	            $saveUser->email = $input['email'];
 	            $saveUser->password = Hash::make($password);
+	            $saveUser->gender = $input['gender'];
+	            $saveUser->acceptTerms = $input['acceptTerms'];
+	            $saveUser->sendMeNoti = $input['sendMeNoti'];
 	            $saveUser->status = 'active';
 	            $saveUser->save();
 	            $userDetail = User::where('email',$saveUser->email)->first();
@@ -131,7 +138,7 @@ class PurchaseController extends Controller
                 $siteLogo = globalSetting('siteLogo');
                 $SiteCopyRight = globalSetting('SiteCopyRight');
                 $main_domain = env('MAIN_DOMAIN');
-                $data = array(
+                $emailData = array(
                     'siteName'=>$siteName,
                     'siteEmail'=>$siteEmail,
                     'siteLogo'=>$siteLogo,
@@ -141,10 +148,10 @@ class PurchaseController extends Controller
                     'password'=>$password,
                     'main_domain'=>$main_domain
                 );
-                Mail::send('emails.Welcome-email', $data, function ($message) use ($data) {
-                    $message->subject('Welcome '. $data['siteName']);
-                    $message->from($data['siteEmail'], $data['siteName']);         
-                    $message->to($data['email']);
+                Mail::send('emails.Welcome-email', $emailData, function ($message) use ($emailData) {
+                    $message->subject('Welcome '. $emailData['siteName']);
+                    $message->from($emailData['siteEmail'], $emailData['siteName']);         
+                    $message->to($emailData['email']);
                 });
                 if(Auth::attempt(['email' => $input['email'], 'password' => $password])):
                     $user = Auth::user();        
@@ -177,10 +184,10 @@ class PurchaseController extends Controller
         endif;
        
         //paymnet setup here   
-        $url = 'https://connect.squareupsandbox.com/v2/payments';
+        $url = env('SQUARE_PRODUCTION_ENDPOINT');
         $headers = array(
             'Square-Version: 2023-05-17',
-            'Authorization: Bearer '.env('SOURCE_PAYMENTGATEWAY_TOKEN'),
+            'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
             'Content-Type: application/json'
         );        
         $data = array(
@@ -208,7 +215,10 @@ class PurchaseController extends Controller
             // Handle the error accordingly
         }        
         curl_close($curl);
-        $paymentJson = json_decode($response);  
+        $paymentJson = json_decode($response); 
+        if(isset($paymentJson->errors)){
+            return response()->json(['message' => 'error', 'data' => ['payment'=>$paymentJson->errors[0]->detail]], 401);
+        }
            
         //Subscription setup here
         
@@ -221,6 +231,9 @@ class PurchaseController extends Controller
                 $saveUser->role = 'user';
                 $saveUser->name = $input['name'];
                 $saveUser->email = $input['email'];
+                $saveUser->gender = $input['gender'];
+	            $saveUser->acceptTerms = $input['acceptTerms'];
+	            $saveUser->sendMeNoti = $input['sendMeNoti'];
                 $saveUser->password = Hash::make($password);
                 $saveUser->status = 'active';
                 $saveUser->save();
@@ -245,7 +258,7 @@ class PurchaseController extends Controller
                 $siteLogo = globalSetting('siteLogo');
                 $SiteCopyRight = globalSetting('SiteCopyRight');
                 $main_domain = env('MAIN_DOMAIN');
-                $data = array(
+                $emailData2 = array(
                     'siteName'=>$siteName,
                     'siteEmail'=>$siteEmail,
                     'siteLogo'=>$siteLogo,
@@ -255,10 +268,10 @@ class PurchaseController extends Controller
                     'password'=>$password,
                     'main_domain'=>$main_domain
                 );
-                Mail::send('emails.Welcome-email', $data, function ($message) use ($data) {
-                    $message->subject('Welcome '. $data['siteName']);
-                    $message->from($data['siteEmail'], $data['siteName']);         
-                    $message->to($data['email']);
+                Mail::send('emails.Welcome-email', $emailData2, function ($message) use ($emailData2) {
+                    $message->subject('Welcome '. $emailData2['siteName']);
+                    $message->from($emailData2['siteEmail'], $emailData2['siteName']);         
+                    $message->to($emailData2['email']);
                 });
                 if(Auth::attempt(['email' => $input['email'], 'password' => $password])):
                     $user = Auth::user();        

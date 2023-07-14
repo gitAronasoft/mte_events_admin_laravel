@@ -71,6 +71,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row mb-4">
+                        <div class="form-group">
+                            <p class="font-weight-bold mb-2">Event Categories<sup class="text-danger">*</sup></p>                        
+                            @if(count($categories)>0)                            
+                                @foreach($categories as $category)                           
+                                    <div class="custom-control custom-checkbox w-100">
+                                        <input type="checkbox" name="category[]" value="{{$category->id}}" class="custom-control-input" id="checked{{$category->id}}">
+                                        <label class="custom-control-label" for="checked{{$category->id}}"> {{$category->CategoryName}}</label>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -122,9 +135,11 @@
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Location<sup class="text-danger">*</sup></span>
+                                <span class="input-group-text">Location<sup class="text-danger">*</sup></span>
                             </div>
-                            <input type="text" class="form-control" required name="eventLocation" value="" aria-label="" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" id="autocomplete" required name="eventLocation" value="" aria-label="">
+                            <input type="hidden" class="form-control" id="latitude" name="latitude" value="" />
+                            <input type="hidden" class="form-control" id="longitude" name="longitude" value="" />
                         </div>
                     </div>
 
@@ -179,11 +194,24 @@
     </style>
     
 @endsection
-@push('scripts')    
+@push('scripts')  
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqj9mUsMOMECP1yhD9xrcNy1RCUK50R40&libraries=places"></script>
     <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function () {
             jQuery('.ckeditor').ckeditor();
-        });            
+        });   
+        google.maps.event.addDomListener(window, 'load', initialize);
+        function initialize() {
+            var input = document.getElementById('autocomplete');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                $('#latitude').val(place.geometry['location'].lat());
+                $('#longitude').val(place.geometry['location'].lng());
+                $("#latitudeArea").removeClass("d-none");
+                $("#longtitudeArea").removeClass("d-none");
+            });
+        }
     </script>
 @endpush('scripts')

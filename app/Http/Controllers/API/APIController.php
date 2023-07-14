@@ -26,6 +26,7 @@ use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\EventGallery;
 use App\Models\Headervideo;
+use App\Models\EventCategory;
 
 class APIController extends Controller
 {
@@ -246,44 +247,62 @@ class APIController extends Controller
             'fullName' => 'required',
             'email' => 'required|email',  
             'phone' => 'required|min:10',
-            'website' => 'required',
-            'company' => 'required',
+            //'website' => 'required',
+            //'company' => 'required',
             'dateevent' => 'required',
             'location' => 'required',
             'venue' => 'required',
             'guestCount' => 'required',
-            'eBudget' => 'required',
+            //'eBudget' => 'required',
             'knowAbout' => 'required',
-            'otherInfo' => 'required'            
+            //'otherInfo' => 'required'            
         ]);
 
         if ($validator->fails()) { 
             return response()->json(['message'=>'error','data'=>$validator->errors()], 401);                      
         } 
-
+        
+        if(!empty($input['website'])):
+            $website = $input['website'];
+        else:
+            $website = '';
+        endif;
+        
+        if(!empty($input['company'])):
+            $company = $input['company'];
+        else:
+            $company = '';
+        endif;
+        
+        if(!empty($input['eBudget'])):
+            $eBudget = $input['eBudget'];
+        else:
+            $eBudget = '';
+        endif;
+        
+        if(!empty($input['otherInfo'])):
+            $otherInfo = $input['otherInfo'];
+        else:
+            $otherInfo = '';
+        endif;
+    
         $input = Request::all();
         $data = Eventenquery::create( [                
             'event' => $input['event'], 
             'fullName' => $input['fullName'], 
             'email' => $input['email'], 
             'phone' => $input['phone'], 
-            'website' => $input['website'], 
-            'company' => $input['company'], 
+            'website' => $website, 
+            'company' => $company, 
             'dateevent' => $input['dateevent'], 
             'location' => $input['location'], 
             'venue' => $input['venue'], 
             'guestCount' => $input['guestCount'], 
-            'eBudget' => $input['eBudget'], 
+            'eBudget' => $eBudget, 
             'knowAbout' => $input['knowAbout'], 
-            'otherInfo' => $input['otherInfo']            
+            'otherInfo' => $otherInfo            
         ]);     
         return response()->json(['message' => 'success', 'data' => 'Your query submitted successfully'], $this->successStatus);        
-    }
-
-    public function cartItems(Request $request)
-    {
-        $input = Request::all();
-        return response()->json(['message' => 'success', 'data' => $input], $this->successStatus); 
     }
     
     public function forgotPassword(Request $request)
@@ -444,7 +463,7 @@ class APIController extends Controller
     
     public function headerVideos()
     {
-        $Headervideos = Headervideo::where('status','active')->orderBy('id','DESC')->limit('5')->get();
+        $Headervideos = Headervideo::where('status','active')->orderBy('id','DESC')->limit('1')->get();
         if($Headervideos):
             $videoUrls= array();
             foreach($Headervideos as $key=>$Headervideo):
@@ -459,6 +478,42 @@ class APIController extends Controller
             return response()->json(['data' =>$videoUrls], 200);
         else:
             return response()->json(['data' =>''], 200);
+        endif;
+    }
+    
+    public function cartItem(Request $request)
+    {
+        $input = Request::all();
+
+        $eventIds = [];
+        foreach ($input as $event) {
+            $eventIds[] = $event['id'];
+        }
+        
+        $updatedEvents = [];
+        $cartEvents = Event::whereIn('id',$eventIds)->get();
+        
+        foreach ($cartEvents as $event) {
+            $eventKey = array_search($event['id'], array_column($input, 'id'));
+            if (strtotime($event->updated_at) > strtotime($input[$eventKey]['updated_at'])) {
+                $updatedEvents[] = $event;
+            }
+        }
+        return response()->json(['events'=> $updatedEvents]);
+    }
+    
+    public function EventCategory()
+    {
+        $EventCategory = EventCategory::where('CategoryStatus','active')->orderBy('id','ASC')->get();
+        if(count($EventCategory)>0):
+            $final_list = array();
+            foreach($EventCategory as $key=> $catgory): //->whereRaw(FIND_IN_SET('css', Tags)) ->whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])
+                $final_list[$key] = $catgory;
+                $final_list[$key]->eventsList = Event::whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])->where('status','publish')->orderBy('id','ASC')->get();
+            endforeach;
+            return response()->json(['message' => 'success', 'data' => $final_list], $this->successStatus);
+        else:
+            return response()->json(['message'=>'error','data'=>'Data not found!'], 401);
         endif;
     }
   

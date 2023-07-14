@@ -48,7 +48,8 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th> 
+                                <th class="text-center">#</th>
+                                <th class="text-center">Feature Image</th> 
                                 <th class="text-center">Video</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
@@ -67,9 +68,16 @@
                                     $video_id = $video_id[0];
                                 @endphp                                                                                  
                                 <tr>
-                                    <td class="text-center">{{$i}}</th>                                                                  
+                                    <td class="text-center">{{$i}}</td>
+                                    <td class="text-center" style="width:25%;">
+                                        @if(!empty($headerVideo->featureImage))
+                                            <img src="{{$headerVideo->featureImage}}" class="img-responsive" alt="" style="width:100%;"/>
+                                        @else 
+                                            <img src="{{ asset('/uploads/catalog-default-img.gif') }}" class="img-responsive" alt="" style="width:100%;"/>
+                                        @endif
+                                    </td>                                                                 
                                     <td class="text-center" style="width:30%;">
-                                        <iframe width="100%" height="150" src="https://www.youtube.com/embed/{{$video_id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{$video_id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                                     </td>                                    
                                     <td class="text-center" style="width:30%;">
                                         @if($headerVideo->status=='active')
@@ -89,6 +97,7 @@
                         <tfoot>
                             <tr>
                                 <th class="text-center">#</th> 
+                                <th class="text-center">Feature Image</th>
                                 <th class="text-center">Video</th>                                
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
