@@ -62,3 +62,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 });
 /************************* Login User Routes*********************************/
+Route::post('orders', [PurchaseController::class, 'orders']);
+

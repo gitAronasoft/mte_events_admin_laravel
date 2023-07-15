@@ -57,7 +57,7 @@ class APIController extends Controller
 
     public function eventslist()
     {
-        $events = Event::where('status','publish')->where('expireAt', '>', strtotime('now'))->orderBy('id','DESC')->get();       
+        $events = Event::where('status','publish')->where('expireAt', '>', strtotime('now'))->orderBy('id','DESC')->get();   
         return response()->json([
             'data' => $events
         ]);
@@ -502,19 +502,19 @@ class APIController extends Controller
         return response()->json(['events'=> $updatedEvents]);
     }
     
-    public function EventCategory()
-    {
-        $EventCategory = EventCategory::where('CategoryStatus','active')->orderBy('id','ASC')->get();
-        if(count($EventCategory)>0):
-            $final_list = array();
-            foreach($EventCategory as $key=> $catgory): //->whereRaw(FIND_IN_SET('css', Tags)) ->whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])
-                $final_list[$key] = $catgory;
-                $final_list[$key]->eventsList = Event::whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])->where('status','publish')->orderBy('id','ASC')->get();
-            endforeach;
-            return response()->json(['message' => 'success', 'data' => $final_list], $this->successStatus);
-        else:
-            return response()->json(['message'=>'error','data'=>'Data not found!'], 401);
-        endif;
-    }
+    // public function EventCategory()
+    // {
+    //     $EventCategory = EventCategory::where('CategoryStatus','active')->orderBy('id','ASC')->get();
+    //     if(count($EventCategory)>0):
+    //         $final_list = array();
+    //         foreach($EventCategory as $key=> $catgory): //->whereRaw(FIND_IN_SET('css', Tags)) ->whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])
+    //             $final_list[$key] = $catgory;
+    //             $final_list[$key]->eventsList = Event::whereRaw('FIND_IN_SET(?, event_category_id)', [$catgory->id])->where('status','publish')->orderBy('id','ASC')->get();
+    //         endforeach;
+    //         return response()->json(['message' => 'success', 'data' => $final_list], $this->successStatus);
+    //     else:
+    //         return response()->json(['message'=>'error','data'=>'Data not found!'], 401);
+    //     endif;
+    // }
   
 }

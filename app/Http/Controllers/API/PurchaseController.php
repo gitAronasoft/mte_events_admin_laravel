@@ -31,6 +31,32 @@ use App\Models\Subscription;
 
 class PurchaseController extends Controller
 {
+    
+    public function orders(Request $request)
+    {
+        $input = Request::all();  
+        $subscriptions = Subscription::with(['packages'])->where('package_id',$input['package_id'])->orderby('id','DESC')->first();
+        $siteName = globalSetting('siteName');
+        $siteEmail = globalSetting('siteEmail');
+        $siteLogo = globalSetting('siteLogo');
+        $SiteCopyRight = globalSetting('SiteCopyRight');
+        $main_domain = env('MAIN_DOMAIN');
+        $emailData = array(
+            'siteName'=>$siteName,
+            'siteEmail'=>$siteEmail,
+            'siteLogo'=>$siteLogo,
+            'SiteCopyRight'=>$SiteCopyRight,
+            'main_domain'=>$main_domain,
+            'subscriptions'=>$subscriptions
+        );
+        Mail::send('emails.package-receipt', $emailData, function ($message) use ($emailData) {
+            $message->subject('payment receipt ');
+            $message->from('info@moneytrainevents.com');         
+            $message->to('manjeet@aronasoft.com');
+        });
+        
+    }
+    
     public function purchaseTickets(Request $request)
     {        
         $returnOutput = array();
@@ -49,10 +75,12 @@ class PurchaseController extends Controller
 	    endif;
        
         //paymnet setup here   
-        $url = env('SQUARE_PRODUCTION_ENDPOINT');
+        //$url = env('SQUARE_PRODUCTION_ENDPOINT');
+        $url = env('SQUARE_SANDBOX_ENDPOINT');
         $headers = array(
             'Square-Version: 2023-05-17',
-            'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
+            //'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
+            'Authorization: Bearer '.env('SQUARE_SANDBOX_TOKEN'),
             'Content-Type: application/json'
         );        
         $data = array(
@@ -129,16 +157,40 @@ class PurchaseController extends Controller
                 $lastEventPurchased = Event::where('id',$orderItem['id'])->first();
                 Event::where('id', $orderItem['id'])->update(['eventPurchased'=>$lastEventPurchased->eventPurchased + $saveItems->purchase_tickets]);
             endforeach;
-
+            
             /*************** Send Email ******************/
+            $orders = Order::where('id', $order->id)->with('orderItems')->get();
+            $siteName = globalSetting('siteName');
+            $siteEmail = globalSetting('siteEmail');
+            $siteLogo = globalSetting('siteLogo');
+            $SiteCopyRight = globalSetting('SiteCopyRight');
+            $main_domain = env('MAIN_DOMAIN');
             if(Auth::check() && Auth::User()->role=='user'):
             else:
-                $siteName = globalSetting('siteName');
-                $siteEmail = globalSetting('siteEmail');
-                $siteLogo = globalSetting('siteLogo');
-                $SiteCopyRight = globalSetting('SiteCopyRight');
-                $main_domain = env('MAIN_DOMAIN');
                 $emailData = array(
+                'siteName'=>$siteName,
+                'siteEmail'=>$siteEmail,
+                'siteLogo'=>$siteLogo,
+                'SiteCopyRight'=>$SiteCopyRight,
+                'name' => $userDetail->name, 
+                'email' => $userDetail->email,
+                'password'=>$password,
+                'main_domain'=>$main_domain
+                );
+                Mail::send('emails.Welcome-email', $emailData, function ($message) use ($emailData) {
+                    $message->subject('Welcome '. $emailData['siteName']);
+                    $message->from($emailData['siteEmail'], $emailData['siteName']);         
+                    $message->to($emailData['email']);
+                });
+               
+                if(Auth::attempt(['email' => $input['email'], 'password' => $password])):
+                    $user = Auth::user();        
+                    $token =  $user->createToken('authToken')->accessToken; 
+                    $returnOutput['token'] = $token;         
+                endif; 
+            endif;
+            // send email receipt   
+                $eventReceipt = array(
                     'siteName'=>$siteName,
                     'siteEmail'=>$siteEmail,
                     'siteLogo'=>$siteLogo,
@@ -146,19 +198,16 @@ class PurchaseController extends Controller
                     'name' => $userDetail->name, 
                     'email' => $userDetail->email,
                     'password'=>$password,
-                    'main_domain'=>$main_domain
+                    'main_domain'=>$main_domain,
+                    'orders'=>$orders
                 );
-                Mail::send('emails.Welcome-email', $emailData, function ($message) use ($emailData) {
-                    $message->subject('Welcome '. $emailData['siteName']);
-                    $message->from($emailData['siteEmail'], $emailData['siteName']);         
-                    $message->to($emailData['email']);
+             
+                Mail::send('emails.receipt', $eventReceipt, function ($message) use ($eventReceipt) {
+                    $message->subject('payment receipt '. $eventReceipt['siteName']);
+                    $message->from($eventReceipt['siteEmail']);         
+                    $message->to($eventReceipt['email']);
                 });
-                if(Auth::attempt(['email' => $input['email'], 'password' => $password])):
-                    $user = Auth::user();        
-                    $token =  $user->createToken('authToken')->accessToken; 
-                    $returnOutput['token'] = $token;         
-                endif; 
-            endif;
+            // End send email receipt
 
             /*************** End Send Email ******************/
             return response()->json(['message' => 'success', 'data' => $returnOutput], 200);
@@ -184,10 +233,12 @@ class PurchaseController extends Controller
         endif;
        
         //paymnet setup here   
-        $url = env('SQUARE_PRODUCTION_ENDPOINT');
+        //$url = env('SQUARE_PRODUCTION_ENDPOINT');
+        $url = env('SQUARE_SANDBOX_ENDPOINT');
         $headers = array(
             'Square-Version: 2023-05-17',
-            'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
+            //'Authorization: Bearer '.env('SQUARE_PRODUCTION_TOKEN'),
+            'Authorization: Bearer '.env('SQUARE_SANDBOX_TOKEN'),
             'Content-Type: application/json'
         );        
         $data = array(
@@ -249,15 +300,18 @@ class PurchaseController extends Controller
             $subscription->currency = $paymentJson->payment->total_money->currency;
             $subscription->status = $paymentJson->payment->status;
             $subscription->save();
-        
+            
+            $subscriptions = Subscription::with(['packages'])->where('package_id',$subscription->package_id)->first();
+            
             /*************** Send Email ******************/
+            $siteName = globalSetting('siteName');
+            $siteEmail = globalSetting('siteEmail');
+            $siteLogo = globalSetting('siteLogo');
+            $SiteCopyRight = globalSetting('SiteCopyRight');
+            $main_domain = env('MAIN_DOMAIN');
+            
             if(Auth::check() && Auth::User()->role=='user'):
             else:
-                $siteName = globalSetting('siteName');
-                $siteEmail = globalSetting('siteEmail');
-                $siteLogo = globalSetting('siteLogo');
-                $SiteCopyRight = globalSetting('SiteCopyRight');
-                $main_domain = env('MAIN_DOMAIN');
                 $emailData2 = array(
                     'siteName'=>$siteName,
                     'siteEmail'=>$siteEmail,
@@ -266,20 +320,39 @@ class PurchaseController extends Controller
                     'name' => $userDetail->name, 
                     'email' => $userDetail->email,
                     'password'=>$password,
-                    'main_domain'=>$main_domain
+                    'main_domain'=>$main_domain,
+                    'subscriptions'=>$subscriptions
                 );
                 Mail::send('emails.Welcome-email', $emailData2, function ($message) use ($emailData2) {
                     $message->subject('Welcome '. $emailData2['siteName']);
                     $message->from($emailData2['siteEmail'], $emailData2['siteName']);         
                     $message->to($emailData2['email']);
                 });
+                
                 if(Auth::attempt(['email' => $input['email'], 'password' => $password])):
                     $user = Auth::user();        
                     $token =  $user->createToken('authToken')->accessToken; 
                     $returnOutput['token'] = $token;          
                 endif;
             endif;
-
+            // package receipt email
+                $packageReceipt = array(
+                    'siteName'=>$siteName,
+                    'siteEmail'=>$siteEmail,
+                    'siteLogo'=>$siteLogo,
+                    'SiteCopyRight'=>$SiteCopyRight,
+                    'name' => $userDetail->name, 
+                    'email' => $userDetail->email,
+                    'password'=>$password,
+                    'main_domain'=>$main_domain,
+                    'subscriptions'=>$subscriptions
+                );
+                Mail::send('emails.package-receipt', $packageReceipt, function ($message) use ($packageReceipt) {
+                    $message->subject('payment receipt'. $packageReceipt['siteName']);
+                    $message->from('info@moneytrainevents.com',$packageReceipt['siteName']);         
+                    $message->to($packageReceipt['email']);
+                });
+            // package receipt email
             /*************** End Send Email ******************/
             return response()->json(['message' => 'success', 'data' => $returnOutput], 200);
         endif;
