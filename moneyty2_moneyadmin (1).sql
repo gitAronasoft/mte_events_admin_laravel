@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 13, 2023 at 11:15 PM
+-- Generation Time: Jul 18, 2023 at 07:16 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 8.1.16
 
@@ -91,12 +91,12 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `eventService`, `event_category_id`, `title`, `slug`, `decription`, `eventTicketsPrice`, `eventLocation`, `latitude`, `longitude`, `eventDate`, `eventTime`, `expireAt`, `eventTickets`, `eventPurchased`, `featureImage`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '1,3', 'Carnival Night', 'carnival-night', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 500.50, '9591 Elizabeth Avenue, Elizabeth, New Jersey, USA', '40.6560014', '-74.19987309999999', '02/09/2023', '17:00', 1693674000, 200, 1, 'https://superadmin.moneytrainevents.com/uploads/event_images/carnival-night-bigLargeImg.jpg', 'publish', '2023-04-06 07:32:44', '2023-07-13 17:13:45'),
-(2, 3, '1,2,3', 'Summer Trap mix', 'summer-trap-mix', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 25.00, '1002 U.S. 9, Woodbridge, Woodbridge Township, NJ 07095, USA', '40.5466195', '-74.2904621', '12/12/2023', '17:00', 1702400400, 100, 0, 'https://superadmin.moneytrainevents.com/uploads/event_images/summer-trap-mix-event2.jpg', 'publish', '2023-04-06 07:34:27', '2023-07-13 17:13:24'),
-(3, 2, '3,2', 'Anniversary Party', 'anniversary-party', '<p>Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 8.00, 'USA Twisterz, Bloomfield Avenue, West Caldwell, New Jersey, USA', '40.8535539', '-74.3014484', '15/08/2023', '17:00', 1692118800, 29, 1, 'https://superadmin.moneytrainevents.com/uploads/event_images/anniversary-party-a91dc911-a63b-48c9-ae67-b36789a6002a.__CR0,0,970,600_PT0_SX970_V1___.jpg', 'publish', '2023-05-12 12:13:19', '2023-07-13 19:44:49'),
+(1, 1, '1,3', 'Carnival Night', 'carnival-night', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 500.50, '9591 Elizabeth Avenue, Elizabeth, New Jersey, USA', '40.6560014', '-74.19987309999999', '02/09/2023', '17:00', 1693674000, 200, 8, 'https://superadmin.moneytrainevents.com/uploads/event_images/carnival-night-bigLargeImg.jpg', 'publish', '2023-04-06 07:32:44', '2023-07-18 13:09:54'),
+(2, 3, '1,2,3', 'Summer Trap mix', 'summer-trap-mix', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 25.00, '1002 U.S. 9, Woodbridge, Woodbridge Township, NJ 07095, USA', '40.5466195', '-74.2904621', '12/12/2023', '17:00', 1702400400, 100, 14, 'https://superadmin.moneytrainevents.com/uploads/event_images/summer-trap-mix-event2.jpg', 'publish', '2023-04-06 07:34:27', '2023-07-18 13:09:54'),
+(3, 2, '3,2', 'Anniversary Party', 'anniversary-party', '<p>Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 8.00, 'USA Twisterz, Bloomfield Avenue, West Caldwell, New Jersey, USA', '40.8535539', '-74.3014484', '15/08/2023', '17:00', 1692118800, 29, 28, 'https://superadmin.moneytrainevents.com/uploads/event_images/anniversary-party-a91dc911-a63b-48c9-ae67-b36789a6002a.__CR0,0,970,600_PT0_SX970_V1___.jpg', 'publish', '2023-05-12 12:13:19', '2023-07-18 13:09:54'),
 (4, 3, NULL, 'Time You’ll Remember', 'time-youll-remember', '<p>Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 10.00, 'Mexico City, Newark Avenue, Jersey City, NJ, USA', '40.72243780000001', '-74.0474867', '12/09/2023', '18:00', 1694541600, 15, 2, 'https://superadmin.moneytrainevents.com/uploads/event_images/time-youll-remember-time-youll-remember-download.jpg', 'publish', '2023-05-12 12:18:38', '2023-07-13 19:44:49'),
 (5, 3, NULL, 'Test', 'test', '<p>ede test</p>', 45.00, 'Estiatorio Milos - Midtown New York, West 55th Street, New York, NY, USA', '40.76354609999999', '-73.9790278', '25/08/2023', '17:00', 1692982800, 40, 0, 'https://superadmin.moneytrainevents.com/uploads/event_images/test-36b91.jpg', 'unpublish', '2023-06-01 09:39:18', '2023-07-13 05:18:27'),
-(6, 2, '2', '80-90s Vibes', '80-90s-vibes', '<p>Urna condimentum sem quam sed mauris viverra vel proin vel. Amet sodales magna nunc aliquam ornare adipiscing.</p>', 1.00, '1002 U.S. 9, Woodbridge, Woodbridge Township, NJ 07095, USA', '40.5466195', '-74.2904621', '30/10/2023', '21:00', 1698699600, 10, 7, 'https://superadmin.moneytrainevents.com/uploads/event_images/80-90s-vibes-80-90s-vibes-REMINISCE-copy-3.jpg', 'publish', '2023-06-01 09:44:30', '2023-07-14 01:21:12');
+(6, 2, '2', '80-90s Vibes', '80-90s-vibes', '<p>Urna condimentum sem quam sed mauris viverra vel proin vel. Amet sodales magna nunc aliquam ornare adipiscing.</p>', 1.00, '1002 U.S. 9, Woodbridge, Woodbridge Township, NJ 07095, USA', '40.5466195', '-74.2904621', '30/10/2023', '21:00', 1698699600, 10, 10, 'https://superadmin.moneytrainevents.com/uploads/event_images/80-90s-vibes-80-90s-vibes-REMINISCE-copy-3.jpg', 'publish', '2023-06-01 09:44:30', '2023-07-15 13:55:28');
 
 -- --------------------------------------------------------
 
@@ -302,19 +302,7 @@ CREATE TABLE `oauth_access_tokens` (
 --
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('00f3b052e50da86e456cb58efd4cccaeaaebd649512f7f23513cf3bd7bb6710f1f22554bec00afe9', 53, 1, 'authToken', '[]', 0, '2023-06-28 10:58:11', '2023-06-28 10:58:11', '2024-06-28 10:58:11'),
-('188af733ce2b2129982748055f9dfe94d860d9a92b71be110937fbf34751cbbd6099b0694d2401e8', 55, 1, 'authToken', '[]', 0, '2023-06-13 21:02:47', '2023-06-13 21:02:47', '2024-06-13 21:02:47'),
-('2f0280c57768d50ea40b7bfc4028918ad76933c6d239b0654abf92fb8fe8b755afdb835bce031a4a', 53, 1, 'authToken', '[]', 1, '2023-06-28 08:26:15', '2023-06-30 05:32:38', '2024-06-28 08:26:15'),
-('6fc9fa56aaf4a5364d6f2f19d0d2d636de5644cf81515a33e9956d6bbbb170d3f69347eac47bf993', 53, 1, 'authToken', '[]', 1, '2023-06-28 10:40:49', '2023-06-28 10:56:31', '2024-06-28 10:40:49'),
-('79d321ccbef4f61a9f294db143d40e14710f6f7eb7f0f0f4003b24b80b6d453691b63a88b13a4681', 53, 1, 'authToken', '[]', 1, '2023-06-28 10:33:49', '2023-06-28 10:40:35', '2024-06-28 10:33:49'),
-('8a94b9500e6be0dc80067a4edd798f9d4214d6eec120d48cbcb10be6c6d263cdd96c0a3d8120afc7', 60, 1, 'authToken', '[]', 1, '2023-07-14 01:21:13', '2023-07-14 01:37:48', '2024-07-13 19:21:13'),
-('8eab8a419c99e66bee9eca8f36809e665a6cf3cf388e272389fbbd426297bd8462bd8a8543bde1c0', 57, 1, 'authToken', '[]', 0, '2023-07-13 02:47:02', '2023-07-13 02:47:02', '2024-07-12 20:47:02'),
-('ad4e6ca99c359c1151b821f6a7593450e133332fa13ab971ce4874c1fae204471523a73b427075df', 55, 1, 'authToken', '[]', 0, '2023-06-13 21:03:18', '2023-06-13 21:03:18', '2024-06-13 21:03:18'),
-('bfe248a8f67e26e5f466df4110ca1981abef331d22ec4a857a2f775a367e6caf2ba8a5a21d733437', 53, 1, 'authToken', '[]', 1, '2023-06-28 07:39:31', '2023-06-28 07:40:37', '2024-06-28 07:39:31'),
-('c2634f83a6e1b94d680cf8c7f52221ca40129058da7738e8a640892f59a2d59e695c557d185242fe', 54, 1, 'authToken', '[]', 0, '2023-06-03 05:16:14', '2023-06-03 05:16:14', '2024-06-03 05:16:14'),
-('f1d996d260a6eec6854320d4f36cf38991e148bf613fdb49034a7ee6ef55849207f7db706a569372', 58, 1, 'authToken', '[]', 1, '2023-07-13 17:17:39', '2023-07-13 21:40:04', '2024-07-13 11:17:39'),
-('f46a56ad81c5d1b3b408bf627a56f764d9353b68eb6bfea80d962f04ea48c6b6f5acc24e0daea38f', 53, 1, 'authToken', '[]', 1, '2023-06-01 11:11:56', '2023-07-13 13:54:34', '2024-06-01 11:11:56'),
-('f70a8c175e7098bb62ce9f570335f850610775fe6e974f16ec3b8c36eddc53d279ba0720284db24b', 59, 1, 'authToken', '[]', 0, '2023-07-13 21:42:12', '2023-07-13 21:42:12', '2024-07-13 15:42:12');
+('543cfc16d95aea349f9b0bafe8670fe74ad86608a698f3ccfda6cc1f9f1494669166183e03128717', 66, 1, 'authToken', '[]', 0, '2023-07-18 13:09:55', '2023-07-18 13:09:55', '2024-07-18 07:09:55');
 
 -- --------------------------------------------------------
 
@@ -416,12 +404,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `payment_id`, `location_id`, `order_id`, `total_amount`, `currency`, `status`, `created_at`, `updated_at`) VALUES
-(1, 53, 'lEpQUAUVQqsbIPhAhzgWIupquILZY', 'L0NKFZ5Y13GHS', '0LKGjsSi1w7Yv0TArThEDWWEmcbZY', 110.00, 'USD', 'COMPLETED', '2023-06-01 11:11:53', '2023-06-01 11:11:53'),
-(2, 54, 'FuUD8NoL3HJKY4oziMKIdQ20ozNZY', 'L0NKFZ5Y13GHS', 'ADlL1iguTYfhLbgTUOX1JzHdWUIZY', 289.00, 'USD', 'COMPLETED', '2023-06-03 05:16:12', '2023-06-03 05:16:12'),
-(3, 56, '9uSrDsuziaBHLehmvfLP3YxSIqCZY', 'L0NKFZ5Y13GHS', 'yWqc0M6vg0FOISIsMRfc9Ao7w5XZY', 500.50, 'USD', 'COMPLETED', '2023-07-12 22:04:44', '2023-07-12 22:04:44'),
-(4, 58, 'XfGOQURsoC7K0eHZMFQmNe5FoBDZY', 'C9D4QDJN8KRHM', 'VsoA5tlbujGQOvEaLhA82ZX4Tg4F', 2.00, 'USD', 'COMPLETED', '2023-07-13 17:17:39', '2023-07-13 17:17:39'),
-(5, 58, 'dYVqBAyHtSe9rNU0iy9L3ywSCnFZY', 'C9D4QDJN8KRHM', 'zbuDjudmYFENqzzUPIOOnyadUf4F', 19.00, 'USD', 'COMPLETED', '2023-07-13 19:44:49', '2023-07-13 19:44:49'),
-(6, 60, '7N0OgGuj38jmwfOFSYejO4xUR29YY', '1AVXDZYF81BTT', 'qsqeqx0wIbzgMam4Xz3ruiTjCVQZY', 1.00, 'USD', 'COMPLETED', '2023-07-14 01:21:12', '2023-07-14 01:21:12');
+(1, 66, 'hAaFim1y92qMKRnkcIiPkO5z3lTZY', 'C9D4QDJN8KRHM', 'zLQ2M7hQmdz3mUZcmV6rwkgxra4F', 574.50, 'USD', 'COMPLETED', '2023-07-18 13:09:54', '2023-07-18 13:09:54');
 
 -- --------------------------------------------------------
 
@@ -433,6 +416,7 @@ CREATE TABLE `order_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` longtext COLLATE utf8mb4_unicode_ci,
   `event_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `purchase_event_detail` json DEFAULT NULL,
   `purchase_tickets` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ticket_id` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -443,16 +427,10 @@ CREATE TABLE `order_items` (
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `event_id`, `purchase_tickets`, `ticket_id`, `created_at`, `updated_at`) VALUES
-(1, '1', 6, '2', 'TK-6-789597', '2023-06-01 11:11:53', '2023-06-01 11:11:53'),
-(2, '2', 6, '1', 'TK-6-922949', '2023-06-03 05:16:12', '2023-06-03 05:16:12'),
-(3, '2', 4, '1', 'TK-4-723392', '2023-06-03 05:16:12', '2023-06-03 05:16:12'),
-(4, '3', 1, '1', 'TK-1-297096', '2023-07-12 22:04:44', '2023-07-12 22:04:44'),
-(5, '4', 6, '2', 'TK-6-142986', '2023-07-13 17:17:39', '2023-07-13 17:17:39'),
-(6, '5', 6, '1', 'TK-6-774181', '2023-07-13 19:44:49', '2023-07-13 19:44:49'),
-(7, '5', 4, '1', 'TK-4-589071', '2023-07-13 19:44:49', '2023-07-13 19:44:49'),
-(8, '5', 3, '1', 'TK-3-472774', '2023-07-13 19:44:49', '2023-07-13 19:44:49'),
-(9, '6', 6, '1', 'TK-6-629049', '2023-07-14 01:21:12', '2023-07-14 01:21:12');
+INSERT INTO `order_items` (`id`, `order_id`, `event_id`, `purchase_event_detail`, `purchase_tickets`, `ticket_id`, `created_at`, `updated_at`) VALUES
+(1, '1', 3, '{\"id\": 3, \"slug\": \"anniversary-party\", \"title\": \"Anniversary Party\", \"isCart\": true, \"status\": \"publish\", \"isHover\": true, \"expireAt\": 1692118800, \"latitude\": \"40.8535539\", \"eventDate\": \"15/08/2023\", \"eventTime\": \"17:00\", \"longitude\": \"-74.3014484\", \"created_at\": \"2023-05-12T06:13:19.000000Z\", \"decription\": \"<p>Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\", \"isWishlist\": false, \"updated_at\": \"2023-07-18T06:53:58.000000Z\", \"eventService\": 2, \"eventTickets\": 29, \"featureImage\": \"https://superadmin.moneytrainevents.com/uploads/event_images/anniversary-party-a91dc911-a63b-48c9-ae67-b36789a6002a.__CR0,0,970,600_PT0_SX970_V1___.jpg\", \"eventLocation\": \"USA Twisterz, Bloomfield Avenue, West Caldwell, New Jersey, USA\", \"ticketInQueue\": \"3\", \"eventPurchased\": 25, \"pendingTickets\": 4, \"eventTicketsPrice\": \"8.00\", \"event_category_id\": \"3,2\"}', '3', 'TK-3-746556', '2023-07-18 13:09:54', '2023-07-18 13:09:54'),
+(2, '1', 2, '{\"id\": 2, \"slug\": \"summer-trap-mix\", \"title\": \"Summer Trap mix\", \"isCart\": true, \"status\": \"publish\", \"isHover\": true, \"expireAt\": 1702400400, \"latitude\": \"40.5466195\", \"eventDate\": \"12/12/2023\", \"eventTime\": \"17:00\", \"longitude\": \"-74.2904621\", \"created_at\": \"2023-04-06T01:34:27.000000Z\", \"decription\": \"<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\", \"isWishlist\": false, \"updated_at\": \"2023-07-18T06:40:50.000000Z\", \"eventService\": 3, \"eventTickets\": 100, \"featureImage\": \"https://superadmin.moneytrainevents.com/uploads/event_images/summer-trap-mix-event2.jpg\", \"eventLocation\": \"1002 U.S. 9, Woodbridge, Woodbridge Township, NJ 07095, USA\", \"ticketInQueue\": \"2\", \"eventPurchased\": 12, \"pendingTickets\": 88, \"eventTicketsPrice\": \"25.00\", \"event_category_id\": \"1,2,3\"}', '2', 'TK-2-515726', '2023-07-18 13:09:54', '2023-07-18 13:09:54'),
+(3, '1', 1, '{\"id\": 1, \"slug\": \"carnival-night\", \"title\": \"Carnival Night\", \"isCart\": true, \"status\": \"publish\", \"isHover\": true, \"expireAt\": 1693674000, \"latitude\": \"40.6560014\", \"eventDate\": \"02/09/2023\", \"eventTime\": \"17:00\", \"longitude\": \"-74.19987309999999\", \"created_at\": \"2023-04-06T01:32:44.000000Z\", \"decription\": \"<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\", \"isWishlist\": false, \"updated_at\": \"2023-07-18T06:53:58.000000Z\", \"eventService\": 1, \"eventTickets\": 200, \"featureImage\": \"https://superadmin.moneytrainevents.com/uploads/event_images/carnival-night-bigLargeImg.jpg\", \"eventLocation\": \"9591 Elizabeth Avenue, Elizabeth, New Jersey, USA\", \"ticketInQueue\": 1, \"eventPurchased\": 7, \"pendingTickets\": 193, \"eventTicketsPrice\": \"500.50\", \"event_category_id\": \"1,3\"}', '1', 'TK-1-487073', '2023-07-18 13:09:54', '2023-07-18 13:09:54');
 
 -- --------------------------------------------------------
 
@@ -614,14 +592,6 @@ CREATE TABLE `subscriptions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `subscriptions`
---
-
-INSERT INTO `subscriptions` (`id`, `user_id`, `order_id`, `package_id`, `payment_id`, `total_amount`, `currency`, `status`, `created_at`, `updated_at`) VALUES
-(1, 58, 'FUW7HkhxLUD9PHMjoBYA2OJnVf4F', 2, 'ly8gp2Cn55K4pZAXoE5KHFuKdRFZY', 69.00, 'USD', 'COMPLETED', '2023-07-13 20:51:25', '2023-07-13 20:51:25'),
-(2, 59, '9KpsW2Sklf4wtFNyzbE3J9CRoZ4F', 3, 'N64DQfe5w2OPltbRH6k1r6IGhRRZY', 89.00, 'USD', 'COMPLETED', '2023-07-13 21:42:12', '2023-07-13 21:42:12');
-
 -- --------------------------------------------------------
 
 --
@@ -721,14 +691,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `role`, `username`, `name`, `email`, `phone`, `gender`, `acceptTerms`, `sendMeNoti`, `verifycode`, `email_verified_at`, `status`, `forgot_password_code`, `password`, `profilePic`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', 'Super Admin', 'admin@abc.com', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '$2y$10$TJ2ZNRtdG6IELh0y2EvUq.xea0dnANxXGmDb3qonfcjaYvBFWEsv2', '1_avatar-dummy.webp', NULL, '2023-04-06 02:10:01', '2023-06-21 09:59:27'),
-(53, 'user', NULL, 'Baljeet Singh', 'developer0945@gmail.com', '7567567', NULL, NULL, NULL, NULL, NULL, 'active', NULL, '$2y$10$MbJJSij/J.paSPSeRUo0x.JqiCdNDxqutaONlfDuxUl6bP8C5cUCe', 'https://superadmin.moneytrainevents.com/uploads/users_profile_pics/53_team1.jpg', NULL, '2023-06-01 11:11:53', '2023-06-28 11:37:23'),
-(54, 'user', NULL, 'baljeet singhhh', 'developer10945@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '$2y$10$0DsfXHQV.4R3QlisTaWXpOvgIf6NVOwD02.3vXzgZkTjB.wJ5UYUe', 'https://superadmin.moneytrainevents.com/uploads/user/default.png', NULL, '2023-06-03 05:16:12', '2023-06-03 05:16:12'),
-(55, 'user', NULL, 'hoyeaahh', 'himamo1336@anwarb.com', NULL, NULL, NULL, NULL, '', '2023-06-13 21:03:10', 'active', NULL, '$2y$10$iIzNklXm2wyHke0xPFUQuu0xyxP8NPjXXyffj8Sw2Or/OfAfwCr9S', 'https://superadmin.moneytrainevents.com/uploads/users_profile_pics/default.png', NULL, '2023-06-13 21:02:47', '2023-06-13 21:03:10'),
-(56, 'user', NULL, 'Baljeet Singh', 'developer04945@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, '$2y$10$Nqd6wkA2hdNn8MUzG05e2.PJuEjQ.MHMkgwTWSm3tOz9Y.2MtejKu', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-12 22:04:44', '2023-07-12 22:04:44'),
-(57, 'user', NULL, 'Rachel David', 'dramaqueenraeabby@yahoo.com', NULL, NULL, NULL, NULL, '234731', NULL, 'unactive', NULL, '$2y$10$TQ1FduKry65p.AoBqeQkYe8Bpcdxuy5VNTErdv1VfnGDpR0Ui5XHq', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-13 02:47:02', '2023-07-13 02:47:02'),
-(58, 'user', NULL, 'Test Product', 'baljeet@aronasoft.com', NULL, 'male', 1, 0, NULL, NULL, 'active', NULL, '$2y$10$CDYDBurHPNKCOSeBN3Z8uOupGzRxbyAEs73..YSJOW2s1kl4j7hPy', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-13 17:17:39', '2023-07-13 17:17:39'),
-(59, 'user', NULL, 'Baljeet Singh', 'aronasoft1@gmail.com', NULL, 'female', 0, 0, NULL, NULL, 'active', NULL, '$2y$10$9.MX0h3mSZuFygCqDxtrf.zzGuDrlZSaQdy1D2cfQRXYOToZywvu2', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-13 21:42:12', '2023-07-13 21:42:12'),
-(60, 'user', NULL, 'Sudhir', 'sudhirkundal43@gmail.com', NULL, 'male', 1, 1, NULL, NULL, 'active', NULL, '$2y$10$GyI8ecffmj5akP2H6kBJW.8eWZvaRoKPM8OuFpz4zJUvQHaK0Lrru', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-14 01:21:12', '2023-07-14 01:21:12');
+(66, 'user', NULL, 'Baljeet Singh', 'developer0945@gmail.com', NULL, 'male', 1, 1, NULL, NULL, 'active', NULL, '$2y$10$h2kFP9Re7MpcvdfjyiSShuKGa0roKOzFCFPXQpF3Qe7pnp9uIT//m', 'https://moneyadmin.stageservices.xyz/uploads/users_profile_pics/default.png', NULL, '2023-07-18 13:09:54', '2023-07-18 13:09:54');
 
 -- --------------------------------------------------------
 
@@ -970,13 +933,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `packages`
@@ -1006,7 +969,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `teams`
@@ -1024,13 +987,13 @@ ALTER TABLE `testimonials`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `user_wishlist_events`
 --
 ALTER TABLE `user_wishlist_events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

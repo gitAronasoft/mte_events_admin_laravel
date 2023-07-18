@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminPortfoliosController;
 use App\Http\Controllers\Admin\AdminTeamsController;
 use App\Http\Controllers\Admin\AdminTestimonialsController;
@@ -40,6 +41,9 @@ Route::get('admin/general-setting', [IndexController::class, 'generalSetting'])-
 Route::post('admin/general-setting', [IndexController::class, 'SaveGeneralSetting'])->middleware('admin');
 Route::get('admin/profile', [IndexController::class, 'profile'])->middleware('admin');
 Route::post('admin/profile', [IndexController::class, 'updateProfile'])->middleware('admin');
+
+/**** Orders Route ***/
+Route::get('admin/orders/', [AdminOrderController::class, 'orders'])->middleware('admin');
 
 Route::get('admin/header/video', [IndexController::class, 'headerVideos'])->middleware('admin');
 Route::get('admin/header/video/add', [IndexController::class, 'AddHeaderVideos'])->middleware('admin');

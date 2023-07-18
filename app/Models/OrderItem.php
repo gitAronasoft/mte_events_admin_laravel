@@ -13,6 +13,15 @@ class OrderItem extends Model
     use HasFactory;
     public $timestamps = true;
 
+    public function setPurchaseEventDetailAttribute($value)
+    {
+        $this->attributes['purchase_event_detail'] = json_encode($value);
+    }
+
+    public function getPurchaseEventDetailAttribute($value) {
+      return json_decode($value);
+    }
+
     public function Orders()
     {
         return $this->belongsTo(Order::class,'order_id');
